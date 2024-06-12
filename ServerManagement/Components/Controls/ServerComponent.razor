@@ -4,7 +4,7 @@
 {
     @* Use @key to improve list - rendering performance *@
     @* only renders the single item when adding or removing it, not the whole list *@
-    <li @key="Server.Id">
+    <li @key="Server.Id" style="background-color: @GetBackgroundColour()">
         @Server.Name in @Server.City is
         <span style="color: @(Server.IsOnline ? "green" : "red")">
             @(Server.IsOnline ? "online" : "offline")
@@ -66,12 +66,44 @@
 
     // private bool editingServer = false;
 
+    [CascadingParameter(Name = "SelectedCity")]
+    public string? SelectedCity { get; set; }
+
     private void OnDeleteServer(int id)
     {
         if (id > 0)
         {
             ServersRepository.DeleteServer(id);
             NavigationManager.Refresh(true);
+        }
+    }
+
+    private string GetBackgroundColour()
+    {
+        if (SelectedCity == null)
+        {
+            return "white";
+        }
+
+        switch (SelectedCity)
+        {
+            case "Toronto":
+            return "powderblue";
+
+            case "Montreal":
+            return "lightgray";
+
+            case "Ottawa":
+            return "palegreen";
+
+            case "Calgary":
+            return "pink";
+
+            case "Halifax":
+            return "white";
+
+            default:
+            return "white";
         }
     }
 }

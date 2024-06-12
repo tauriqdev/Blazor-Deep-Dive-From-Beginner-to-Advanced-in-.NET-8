@@ -20,11 +20,16 @@
 
 <br />
 
-@* to set rendermode per component *@
-@* this method is recommended *@
-<ServerListComponent @rendermode="InteractiveServer"
-                     CityName="@selectedCity"
-                     SearchFilter="@serverFilter"></ServerListComponent>
+@* to send a value down to multiple children instead *@
+@* of using multiple child parameters *@
+<CascadingValue Name="SelectedCity" Value="@selectedCity">
+    @* to set rendermode per component *@
+    @* this method is recommended *@
+    <ServerListComponent @rendermode="InteractiveServer"
+                         CityName="@selectedCity"
+                         SearchFilter="@serverFilter">
+    </ServerListComponent>
+</CascadingValue>
 
 @code {
     private string selectedCity = "Toronto";
