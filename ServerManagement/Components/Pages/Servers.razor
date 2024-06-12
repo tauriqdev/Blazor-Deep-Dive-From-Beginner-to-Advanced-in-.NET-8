@@ -12,28 +12,7 @@
 <br />
 <br />
 
-<div class="container-fluid text-center">
-    <div class="row w-100">
-        @foreach (var city in cities)
-        {
-            <div class="col">
-                <div class="card @(selectedCity.Equals(city, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
-                    <img src="@($"/images/{city}.png")"
-                         class="card-img-top"
-                         alt="..." s
-                         tyle="height:120px;">
-                    <div class="card-body">
-                        <button type="button"
-                                class="btn btn-primary me-1"
-                                @onclick="() => OnSelectCity(city)">
-                            @city
-                        </button>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
+<CityListComponent></CityListComponent>
 
 <br />
 
@@ -55,12 +34,9 @@
 
 @* to set rendermode per component *@
 @* this method is recommended *@
-<ServerListComponent @rendermode="InteractiveServer" CityName="@selectedCity"></ServerListComponent>
+<ServerListComponent @rendermode="InteractiveServer" CityName="Toronto"></ServerListComponent>
 
 @code {
-    private List<string> cities = CitiesRepository.GetCities();
-    private string selectedCity = "Toronto";
-
     private string _serverFilter = "";
     private string serverFilter
     {
@@ -72,12 +48,6 @@
         }
     }
 
-    private void OnSelectCity(string cityName)
-    {
-        selectedCity = cityName;
-    }
-
-
     // when using @onchange blazor passes some parameters into the function called ChangeEventArgs
     // private void HandleServerFilterChnage(ChangeEventArgs args)
     // {
@@ -87,6 +57,6 @@
     private void HandleSearch()
     {
         //servers = ServersRepository.SearchServers(serverFilter);
-        selectedCity = String.Empty;
+        //selectedCity = String.Empty;
     }
 }

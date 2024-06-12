@@ -1,0 +1,33 @@
+﻿@if (City != null)
+{
+    <div class="col">
+        <div class="card @(SelectedCity.Equals(City, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
+            <img src="@($"/images/{City}.png")"
+                 class="card-img-top"
+                 alt="..." s
+                 tyle="height:120px;">
+            <div class="card-body">
+                <button type="button"
+                        class="btn btn-primary me-1"
+                        @onclick="() => OnSelectCity(City)">
+                    @City
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string SelectedCity { get; set; } = "Toronto";
+
+    [Parameter]
+    public string City { get; set; } = "";
+
+
+    private void OnSelectCity(string cityName)
+    {
+        selectedCity = cityName;
+    }
+}
