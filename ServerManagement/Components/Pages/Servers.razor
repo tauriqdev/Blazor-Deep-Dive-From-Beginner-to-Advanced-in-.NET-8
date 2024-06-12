@@ -1,6 +1,6 @@
 ﻿@page "/servers"
-
 @inject NavigationManager NavigationManager
+@* @rendermode InteractiveServer // set rendermode here to set this component and all child components *@
 
 <div class="d-flex justify-content-between">
     <h3>Servers</h3>
@@ -32,6 +32,8 @@
 
 <br />
 
+@* to set rendermode per component *@
+@* this method is recommended *@
 <ServerComponent @rendermode="InteractiveServer"></ServerComponent>
 
 <ul>
