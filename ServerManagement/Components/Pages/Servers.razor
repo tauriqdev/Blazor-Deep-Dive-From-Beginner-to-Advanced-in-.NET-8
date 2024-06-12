@@ -1,6 +1,6 @@
 ﻿@page "/servers"
 @inject NavigationManager NavigationManager
-@* @rendermode InteractiveServer // set rendermode here to set this component and all child components *@
+@rendermode InteractiveServer // set rendermode here to set this component and all child components *@
 
 <div class="d-flex justify-content-between">
     <h3>Servers</h3>
@@ -16,13 +16,11 @@
         {
             <div class="col">
                 <div class="card">
-                    <img src="@($"/images/{city}.png")" class="card-img-top" alt="...">
+                    <img src="@($"/images/{city}.png")" class="card-img-top" alt="..." style="height:120px;">
                     <div class="card-body">
-                        <EditForm Model="city" FormName="@($"form-server-{city}")" OnValidSubmit="@(() => { OnCiyClick(city); })">
-                            <button type="submit" class="btn btn-primary me-1">
-                                @city
-                            </button>
-                        </EditForm>
+                        <button type="button" class="btn btn-primary me-1" @onclick="() => OnSelectCity(city)">
+                            @city
+                        </button>
                     </div>
                 </div>
             </div>
@@ -60,9 +58,9 @@
     // private List<Server> servers = new() { };
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
 
-    private void OnCiyClick(string city)
+    private void OnSelectCity(string cityName)
     {
-        servers = ServersRepository.GetServersByCity(city);
+        servers = ServersRepository.GetServersByCity(cityName);
     }
 
     private void OnDeleteServer(int id)
