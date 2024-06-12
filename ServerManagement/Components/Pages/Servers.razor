@@ -12,11 +12,11 @@
 <br />
 <br />
 
-<CityListComponent SelectedCityCallback="HandleCitySelection"></CityListComponent>
+<CityListComponent @ref="cityListComponent" SelectedCityCallback="HandleCitySelection"></CityListComponent>
 
 <br />
 
-<ServerSearchComponent SearchServerCallback="HandleSearchServer"></ServerSearchComponent>
+<ServerSearchComponent @ref="serverSearchComponent" SearchServerCallback="HandleSearchServer"></ServerSearchComponent>
 
 <br />
 
@@ -30,14 +30,19 @@
     private string selectedCity = "Toronto";
     private string serverFilter = "";
 
+    private CityListComponent? cityListComponent;
+    private ServerSearchComponent? serverSearchComponent;
+
     private void HandleCitySelection(string cityName)
     {
         selectedCity = cityName;
         serverFilter = string.Empty;
+        serverSearchComponent?.ClearFilter();
     }
 
     private void HandleSearchServer(string searchFilter)
     {
         serverFilter = searchFilter;
+        cityListComponent?.ClearSelection();
     }
 }

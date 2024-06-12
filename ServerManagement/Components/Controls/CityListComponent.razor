@@ -26,4 +26,9 @@
         selectedCity = cityName;
         SelectedCityCallback.InvokeAsync(selectedCity);
     }
+
+    public void ClearSelection()
+    {
+        selectedCity = string.Empty;
+    }
 }
