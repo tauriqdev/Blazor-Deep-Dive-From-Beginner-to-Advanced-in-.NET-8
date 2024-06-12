@@ -31,7 +31,9 @@
 <br />
 
 <div class="input-group mb-3">
-    <input class="form-control" type="text" placeholder="Search Servers" @onchange="HandleServerFilterChnage" />
+    <input class="form-control" type="text" placeholder="Search Servers"
+           @bind-value="serverFilter"
+           @bind-value:event="oninput" />@* change the default onChangee to onInput on the two way binding *@
     <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
 </div>
 
@@ -65,7 +67,17 @@
     // private List<Server> servers = new() { };
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
     private string selectedCity = "Toronto";
-    private string serverFilter = "";
+
+    private string _serverFilter = "";
+    private string serverFilter
+    {
+        get => _serverFilter;
+        set
+        {
+            _serverFilter = value;
+            servers = ServersRepository.SearchServers(_serverFilter);
+        }
+    }
 
     private void OnSelectCity(string cityName)
     {
@@ -83,10 +95,10 @@
     }
 
     // when using @onchange blazor passes some parameters into the function called ChangeEventArgs
-    private void HandleServerFilterChnage(ChangeEventArgs args)
-    {
-        serverFilter = args.Value?.ToString() ?? String.Empty;
-    }
+    // private void HandleServerFilterChnage(ChangeEventArgs args)
+    // {
+    //     serverFilter = args.Value?.ToString() ?? String.Empty;
+    // }
 
     private void HandleSearch()
     {
