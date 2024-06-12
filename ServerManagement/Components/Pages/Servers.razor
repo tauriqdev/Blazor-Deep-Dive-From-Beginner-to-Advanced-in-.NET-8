@@ -1,0 +1,76 @@
+﻿@page "/servers"
+
+@inject NavigationManager NavigationManager
+
+<div class="d-flex justify-content-between">
+    <h3>Servers</h3>
+
+    <a href="/servers/add" class="btn btn-link">Add</a>
+</div>
+<br />
+<br />
+
+<div class="container-fluid text-center">
+    <div class="row w-100">
+        @foreach (var city in cities)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="@($"/images/{city}.png")" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <EditForm Model="city" FormName="@($"form-server-{city}")" OnValidSubmit="@(() => { OnCiyClick(city); })">
+                            <button type="submit" class="btn btn-primary me-1">
+                                @city
+                            </button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+
+<p>
+    <ServerComponent></ServerComponent>
+</p>
+
+<ul>
+    @foreach (var server in servers)
+    {
+        <li>
+            @server.Name in @server.City is
+            <span style="color: @(server.IsOnline ? "green" : "red")">
+                @(server.IsOnline ? "online" : "offline")
+            </span>
+            &nbsp;
+            <a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
+            <EditForm Model="server" FormName="@($"form-server-{server.ServerId}")" OnValidSubmit="@(() => { OnDeleteServer(server.ServerId); })">
+                <button type="submit" class="btn btn-primary ms-1">
+                    Delete
+                </button>
+            </EditForm>
+        </li>
+    }
+</ul>
+
+@code {
+    private List<string> cities = CitiesRepository.GetCities();
+    // private List<Server> servers = new() { };
+    private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
+
+    private void OnCiyClick(string city)
+    {
+        servers = ServersRepository.GetServersByCity(city);
+    }
+
+    private void OnDeleteServer(int id)
+    {
+        if (id > 0)
+        {
+            ServersRepository.DeleteServer(id);
+            NavigationManager.Refresh();
+        }
+    }
+}

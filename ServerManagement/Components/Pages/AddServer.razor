@@ -1,0 +1,73 @@
+﻿@page "/servers/add"
+
+@inject NavigationManager NavigationManager
+
+<h3>Add Server</h3>
+
+<br />
+<br />
+
+<EditForm Model="server" FormName="formServer" OnValidSubmit="OnSubmit">
+    @* tells the form to use the data annotations on the model for validation*@
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    @* display the validation message *@
+    <ValidationSummary></ValidationSummary>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Name</label>
+        </div>
+        <div class="col-6">
+            <InputText class="form-control" @bind-Value="server.Name"></InputText>
+        </div>
+        <div class="col">
+            <ValidationMessage For="() => server.Name"></ValidationMessage>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">City</label>
+        </div>
+        <div class="col-6">
+            <InputText class="form-control" @bind-Value="server.City"></InputText>
+        </div>
+        <div class="col">
+            <ValidationMessage For="() => server.City"></ValidationMessage>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            <label class="col-form-label">Online</label>
+        </div>
+        <div class="col-6">
+            <InputCheckbox class="form-check-input" @bind-Value="server.IsOnline"></InputCheckbox>
+        </div>
+    </div>
+
+    <br />
+
+    <button class="btn btn-primary me-1" type="submit">
+        Save
+    </button>
+    <a href="/servers" class="btn btn-primary">
+        Close
+    </a>
+</EditForm>
+
+<br />
+
+@code {
+    [SupplyParameterFromForm(FormName = "formServer")]
+    private Server server { get; set; } = new() { IsOnline = false };
+
+    private void OnSubmit()
+    {
+        if (server != null)
+        {
+            ServersRepository.AddServer(server);
+            NavigationManager.NavigateTo("/servers");
+        }
+    }
+}
