@@ -12,7 +12,7 @@
 <br />
 <br />
 
-<CityListComponent></CityListComponent>
+<CityListComponent SelectedCityCallback="HandleCitySelection"></CityListComponent>
 
 <br />
 
@@ -34,9 +34,11 @@
 
 @* to set rendermode per component *@
 @* this method is recommended *@
-<ServerListComponent @rendermode="InteractiveServer" CityName="Toronto"></ServerListComponent>
+<ServerListComponent @rendermode="InteractiveServer" CityName="@selectedCity"></ServerListComponent>
 
 @code {
+    private string selectedCity = "Toronto";
+
     private string _serverFilter = "";
     private string serverFilter
     {
@@ -58,5 +60,10 @@
     {
         //servers = ServersRepository.SearchServers(serverFilter);
         //selectedCity = String.Empty;
+    }
+
+    private void HandleCitySelection(string cityName)
+    {
+        selectedCity = cityName;
     }
 }
