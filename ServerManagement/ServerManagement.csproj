@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Controls\ServerListComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Controls\ServerListComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\Controls\ServerListComponent.razor" />
+  </ItemGroup>
+
 </Project>

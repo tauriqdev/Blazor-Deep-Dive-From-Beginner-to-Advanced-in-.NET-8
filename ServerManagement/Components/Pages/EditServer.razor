@@ -9,7 +9,9 @@
 
 @if (server != null)
 {
-    <EditForm Model="server" FormName="formServer" OnValidSubmit="OnSubmit">
+    <EditForm Model="server"
+              FormName="formServer"
+              OnValidSubmit="OnSubmit">
         @* tells the form to use the data annotations on the model for validation*@
         <DataAnnotationsValidator></DataAnnotationsValidator>
         @* display the validation message *@
@@ -19,7 +21,9 @@
 
         <div class="row mb-3">
             <div class="col-2">
-                <label class="col-form-label">Name</label>
+                <label class="col-form-label">
+                    Name
+                </label>
             </div>
             <div class="col-6">
                 <InputText class="form-control" @bind-Value="server.Name"></InputText>
@@ -31,7 +35,9 @@
 
         <div class="row mb-3">
             <div class="col-2">
-                <label class="col-form-label">City</label>
+                <label class="col-form-label">
+                    City
+                </label>
             </div>
             <div class="col-6">
                 <InputText class="form-control" @bind-Value="server.City"></InputText>
@@ -43,7 +49,9 @@
 
         <div class="row mb-3">
             <div class="col-2">
-                <label class="col-form-label">Online</label>
+                <label class="col-form-label">
+                    Online
+                </label>
             </div>
             <div class="col-6">
                 <InputCheckbox class="form-check-input" @bind-Value="server.IsOnline"></InputCheckbox>

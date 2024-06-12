@@ -5,7 +5,9 @@
 <div class="d-flex justify-content-between">
     <h3>Servers</h3>
 
-    <a href="/servers/add" class="btn btn-link">Add</a>
+    <a href="/servers/add" class="btn btn-link">
+        Add
+    </a>
 </div>
 <br />
 <br />
@@ -16,9 +18,14 @@
         {
             <div class="col">
                 <div class="card @(selectedCity.Equals(city, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
-                    <img src="@($"/images/{city}.png")" class="card-img-top" alt="..." style="height:120px;">
+                    <img src="@($"/images/{city}.png")"
+                         class="card-img-top"
+                         alt="..." s
+                         tyle="height:120px;">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary me-1" @onclick="() => OnSelectCity(city)">
+                        <button type="button"
+                                class="btn btn-primary me-1"
+                                @onclick="() => OnSelectCity(city)">
                             @city
                         </button>
                     </div>
@@ -31,46 +38,27 @@
 <br />
 
 <div class="input-group mb-3">
-    <input class="form-control" type="text" placeholder="Search Servers"
+    <input class="form-control"
+           type="text"
+           placeholder="Search Servers"
            @bind-value="serverFilter"
            @bind-value:event="oninput" />@* change the default onChangee to onInput on the two way binding *@
-    <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
+    <button class="btn btn-outline-secondary"
+            type="button"
+            id="button-search"
+            @onclick="HandleSearch">
+        Search
+    </button>
 </div>
 
 <br />
 
 @* to set rendermode per component *@
 @* this method is recommended *@
-@* <ServerComponent @rendermode="InteractiveServer"></ServerComponent> *@
-
-<ul>
-    @* should use Virtualize instead of foreach if:
-    - list is big (over 1000 items)
-    - the items are the same height
-    the items are rendered only when they appear on the screen *@
-    <Virtualize Items="servers" Context="server">
-        @* Use @key to improve list - rendering performance *@
-        @* only renders the single item when adding or removing it, not the whole list *@
-        <li @key="server.ServerId">
-            @server.Name in @server.City is
-            <span style="color: @(server.IsOnline ? "green" : "red")">
-                @(server.IsOnline ? "online" : "offline")
-            </span>
-            &nbsp;
-            <a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
-            <EditForm Model="server" FormName="@($"form-server-{server.ServerId}")" OnValidSubmit="@(() => { OnDeleteServer(server.ServerId); })">
-                <button type="submit" class="btn btn-primary ms-1">
-                    Delete
-                </button>
-            </EditForm>
-        </li>
-    </Virtualize>
-</ul>
+<ServerListComponent @rendermode="InteractiveServer" CityName="@selectedCity"></ServerListComponent>
 
 @code {
     private List<string> cities = CitiesRepository.GetCities();
-    // private List<Server> servers = new() { };
-    private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
     private string selectedCity = "Toronto";
 
     private string _serverFilter = "";
@@ -80,32 +68,15 @@
         set
         {
             _serverFilter = value;
-            servers = ServersRepository.SearchServers(_serverFilter);
+            //servers = ServersRepository.SearchServers(_serverFilter);
         }
     }
 
     private void OnSelectCity(string cityName)
     {
         selectedCity = cityName;
-        servers = ServersRepository.GetServersByCity(selectedCity);
-
-        // if (cityName.Equals("Halifax"))
-        // {
-        //     for (int i = 16; i < 2000; i++)
-        //     {
-        //         servers.Add(new() { ServerId = i, Name = $"Server{i}", City = "Halifax" });
-        //     }
-        // }
     }
 
-    private void OnDeleteServer(int id)
-    {
-        if (id > 0)
-        {
-            ServersRepository.DeleteServer(id);
-            // NavigationManager.Refresh();
-        }
-    }
 
     // when using @onchange blazor passes some parameters into the function called ChangeEventArgs
     // private void HandleServerFilterChnage(ChangeEventArgs args)
@@ -115,7 +86,7 @@
 
     private void HandleSearch()
     {
-        servers = ServersRepository.SearchServers(serverFilter);
+        //servers = ServersRepository.SearchServers(serverFilter);
         selectedCity = String.Empty;
     }
 }
