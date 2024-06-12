@@ -15,7 +15,7 @@
         @foreach (var city in cities)
         {
             <div class="col">
-                <div class="card">
+                <div class="card @(selectedCity.Equals(city, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
                     <img src="@($"/images/{city}.png")" class="card-img-top" alt="..." style="height:120px;">
                     <div class="card-body">
                         <button type="button" class="btn btn-primary me-1" @onclick="() => OnSelectCity(city)">
@@ -32,7 +32,7 @@
 
 @* to set rendermode per component *@
 @* this method is recommended *@
-<ServerComponent @rendermode="InteractiveServer"></ServerComponent>
+@* <ServerComponent @rendermode="InteractiveServer"></ServerComponent> *@
 
 <ul>
     @foreach (var server in servers)
@@ -58,9 +58,12 @@
     // private List<Server> servers = new() { };
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
 
+    private string selectedCity = "Toronto";
+
     private void OnSelectCity(string cityName)
     {
-        servers = ServersRepository.GetServersByCity(cityName);
+        selectedCity = cityName;
+        servers = ServersRepository.GetServersByCity(selectedCity);
     }
 
     private void OnDeleteServer(int id)
