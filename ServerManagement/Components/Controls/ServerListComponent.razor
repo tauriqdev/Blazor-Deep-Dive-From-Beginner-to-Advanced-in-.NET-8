@@ -1,30 +1,12 @@
-﻿@inject NavigationManager NavigationManager
-
-@if (servers != null && servers.Count > 0)
+﻿@if (servers != null && servers.Count > 0)
 {
     <ul>
-        @* should use Virtualize instead of foreach if:
-    - list is big (over 1000 items)
-    - the items are the same height
-    the items are rendered only when they appear on the screen *@
+        @* should use Virtualize instead of foreach if: *@
+        @* - list is big (over 1000 items) *@
+        @* - the items are the same height *@
+        @* the items are rendered only when they appear on the screen *@
         <Virtualize Items="servers" Context="server">
-            @* Use @key to improve list - rendering performance *@
-            @* only renders the single item when adding or removing it, not the whole list *@
-            <li @key="server.ServerId">
-                @server.Name in @server.City is
-                <span style="color: @(server.IsOnline ? "green" : "red")">
-                    @(server.IsOnline ? "online" : "offline")
-                </span>
-                &nbsp;
-                <a href="/servers/@server.ServerId" class="btn btn-link">Edit</a>
-                <EditForm Model="server"
-                          FormName="@($"form-server-{server.ServerId}")"
-                          OnValidSubmit="@(() => { OnDeleteServer(server.ServerId); })">
-                    <button type="submit" class="btn btn-primary ms-1">
-                        Delete
-                    </button>
-                </EditForm>
-            </li>
+            <ServerComponent Server="server"></ServerComponent>
         </Virtualize>
     </ul>
 }
@@ -38,14 +20,5 @@
     protected override void OnParametersSet()
     {
         servers = ServersRepository.GetServersByCity(CityName ?? "Toronto");
-    }
-
-    private void OnDeleteServer(int id)
-    {
-        if (id > 0)
-        {
-            ServersRepository.DeleteServer(id);
-            NavigationManager.Refresh(true);
-        }
     }
 }

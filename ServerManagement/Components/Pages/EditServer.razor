@@ -17,7 +17,7 @@
         @* display the validation message *@
         <ValidationSummary></ValidationSummary>
 
-        <InputNumber @bind-Value="server.ServerId" hidden></InputNumber>
+        <InputNumber @bind-Value="server.Id" hidden></InputNumber>
 
         <div class="row mb-3">
             <div class="col-2">
@@ -89,7 +89,7 @@
     {
         if (server != null)
         {
-            ServersRepository.UpdateServer(server.ServerId, server);
+            ServersRepository.UpdateServer(server.Id, server);
             NavigationManager.NavigateTo("/servers");
         }
     }

@@ -4,27 +4,27 @@
     {
         private static List<Server> servers = new List<Server>()
         { 
-            new() { ServerId = 1, Name = "Server1", City = "Toronto" },
-            new() { ServerId = 2, Name = "Server2", City = "Toronto" },
-            new() { ServerId = 3, Name = "Server3", City = "Toronto" },
-            new() { ServerId = 4, Name = "Server4", City = "Montreal" },
-            new() { ServerId = 5, Name = "Server5", City = "Montreal" },
-            new() { ServerId = 6, Name = "Server6", City = "Montreal" },
-            new() { ServerId = 7, Name = "Server7", City = "Ottawa" },
-            new() { ServerId = 8, Name = "Server8", City = "Ottawa" },
-            new() { ServerId = 9, Name = "Server9", City = "Ottawa" },
-            new() { ServerId = 10, Name = "Server10", City = "Calgary" },
-            new() { ServerId = 11, Name = "Server11", City = "Calgary" },
-            new() { ServerId = 12, Name = "Server12", City = "Halifax" },
-            new() { ServerId = 13, Name = "Server13", City = "Halifax" },
-            new() { ServerId = 14, Name = "Server14", City = "Halifax" },
-            new() { ServerId = 15, Name = "Server15", City = "Halifax" }
+            new() { Id = 1, Name = "Server1", City = "Toronto" },
+            new() { Id = 2, Name = "Server2", City = "Toronto" },
+            new() { Id = 3, Name = "Server3", City = "Toronto" },
+            new() { Id = 4, Name = "Server4", City = "Montreal" },
+            new() { Id = 5, Name = "Server5", City = "Montreal" },
+            new() { Id = 6, Name = "Server6", City = "Montreal" },
+            new() { Id = 7, Name = "Server7", City = "Ottawa" },
+            new() { Id = 8, Name = "Server8", City = "Ottawa" },
+            new() { Id = 9, Name = "Server9", City = "Ottawa" },
+            new() { Id = 10, Name = "Server10", City = "Calgary" },
+            new() { Id = 11, Name = "Server11", City = "Calgary" },
+            new() { Id = 12, Name = "Server12", City = "Halifax" },
+            new() { Id = 13, Name = "Server13", City = "Halifax" },
+            new() { Id = 14, Name = "Server14", City = "Halifax" },
+            new() { Id = 15, Name = "Server15", City = "Halifax" }
         };
 
         public static void AddServer(Server server)
         {
-            var maxId = servers.Max(x => x.ServerId);
-            server.ServerId = maxId + 1;
+            var maxId = servers.Max(x => x.Id);
+            server.Id = maxId + 1;
             servers.Add(server);
         }
 
@@ -37,13 +37,13 @@
 
         public static Server? GetServerById(int id)
         {
-            var server = servers.FirstOrDefault(s => s.ServerId == id);
+            var server = servers.FirstOrDefault(s => s.Id == id);
 
             if (server != null)
             {
                 return new Server
                 {
-                    ServerId = server.ServerId,
+                    Id = server.Id,
                     Name = server.Name,
                     City = server.City,
                     IsOnline = server.IsOnline
@@ -55,10 +55,10 @@
 
         public static void UpdateServer(int serverId, Server server)
         {
-            if (serverId != server.ServerId)
+            if (serverId != server.Id)
                 return;
 
-            var serverToUpdate = servers.FirstOrDefault(s => s.ServerId == serverId);
+            var serverToUpdate = servers.FirstOrDefault(s => s.Id == serverId);
             
             if (serverToUpdate != null)
             {
@@ -70,7 +70,7 @@
 
         public static void DeleteServer(int serverId)
         {
-            var server = servers.FirstOrDefault(s => s.ServerId == serverId);
+            var server = servers.FirstOrDefault(s => s.Id == serverId);
 
             if (server != null)
             {
