@@ -1,0 +1,41 @@
+﻿@page "/todolist"
+@rendermode InteractiveServer
+
+<h3>To Do</h3>
+<br />
+
+<button class="btn btn-primary"
+        type="button"
+        @onclick="AddTask">
+    Add Task
+</button>
+
+<br />
+<br />
+
+@if (items != null && items.Count > 0)
+{
+    <ul>
+        @foreach (var item in items)
+        {
+            <li @key="item.Id">
+                @item.Name
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <h3>Loading ....</h3>
+}
+
+
+@code {
+    private List<ToDoItem> items = ToDoItemsRepository.GetItems();
+
+    private void AddTask()
+    {
+        ToDoItemsRepository.AddItem(new() { Name = "New Task" });
+        items = ToDoItemsRepository.GetItems();
+    }
+}
