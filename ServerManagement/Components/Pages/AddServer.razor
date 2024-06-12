@@ -1,5 +1,5 @@
 ﻿@page "/servers/add"
-
+@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 
 <h3>Add Server</h3>
@@ -7,6 +7,7 @@
 <br />
 <br />
 
+@* form name can be removed in InteractiveServer *@
 <EditForm Model="server" FormName="formServer" OnValidSubmit="OnSubmit">
     @* tells the form to use the data annotations on the model for validation*@
     <DataAnnotationsValidator></DataAnnotationsValidator>
@@ -59,7 +60,8 @@
 <br />
 
 @code {
-    [SupplyParameterFromForm(FormName = "formServer")]
+    // SupplyParameterFromForm can be removed in InteractiveServer
+    // [SupplyParameterFromForm(FormName = "formServer")]
     private Server server { get; set; } = new() { IsOnline = false };
 
     private void OnSubmit()
