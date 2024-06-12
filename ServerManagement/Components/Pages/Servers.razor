@@ -30,6 +30,13 @@
 
 <br />
 
+<div class="input-group mb-3">
+    <input class="form-control" type="text" placeholder="Search Servers" @onchange="HandleServerFilterChnage" />
+    <button class="btn btn-outline-secondary" type="button" id="button-search" @onclick="HandleSearch">Search</button>
+</div>
+
+<br />
+
 @* to set rendermode per component *@
 @* this method is recommended *@
 @* <ServerComponent @rendermode="InteractiveServer"></ServerComponent> *@
@@ -57,8 +64,8 @@
     private List<string> cities = CitiesRepository.GetCities();
     // private List<Server> servers = new() { };
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
-
     private string selectedCity = "Toronto";
+    private string serverFilter = "";
 
     private void OnSelectCity(string cityName)
     {
@@ -73,5 +80,17 @@
             ServersRepository.DeleteServer(id);
             NavigationManager.Refresh();
         }
+    }
+
+    // when using @onchange blazor passes some parameters into the function called ChangeEventArgs
+    private void HandleServerFilterChnage(ChangeEventArgs args)
+    {
+        serverFilter = args.Value?.ToString() ?? String.Empty;
+    }
+
+    private void HandleSearch()
+    {
+        servers = ServersRepository.SearchServers(serverFilter);
+        selectedCity = String.Empty;
     }
 }
