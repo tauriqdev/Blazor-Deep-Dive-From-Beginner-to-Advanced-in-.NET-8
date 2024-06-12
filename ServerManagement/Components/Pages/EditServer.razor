@@ -73,7 +73,7 @@
 
 @code {
     [Parameter]
-    public int id { get; set; }
+    public int Id { get; set; }
 
     // two way model binding
     [SupplyParameterFromForm(FormName = "formServer")]
@@ -82,7 +82,7 @@
     protected override void OnParametersSet()
     {
         // fetch only if server is null
-        server ??= ServersRepository.GetServerById(id);
+        server ??= ServersRepository.GetServerById(Id);
     }
 
     private void OnSubmit()

@@ -11,6 +11,7 @@
         </span>
         &nbsp;
         <a href="/servers/@Server.Id" class="btn btn-link">Edit</a>
+                @* @onclick="() => editingServer = !editingServer"> *@
         <EditForm Model="Server"
                   FormName="@($"form-server-{Server.Id}")"
                   OnValidSubmit="@(() => { OnDeleteServer(Server.Id); })">
@@ -18,12 +19,19 @@
                 Delete
             </button>
         </EditForm>
+
+        @* @if (editingServer)
+        {
+            <ServerManagement.Components.Pages.EditServer Id="Server.Id"></ServerManagement.Components.Pages.EditServer>
+        } *@
     </li>
 }
 
 @code {
     [Parameter]
     public Server? Server { get; set; }
+
+    // private bool editingServer = false;
 
     private void OnDeleteServer(int id)
     {
