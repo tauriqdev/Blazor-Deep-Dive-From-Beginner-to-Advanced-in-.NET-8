@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents(); // add for server interactivity
 
+//need to add dependency to cascade across render mode boundary
+//builder.Services.AddCascadingValue("SelectedCity", sp => "Toronto");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
