@@ -19,44 +19,29 @@
 
         <InputNumber @bind-Value="server.Id" hidden></InputNumber>
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label class="col-form-label">
-                    Name
-                </label>
-            </div>
-            <div class="col-6 input-width">
+        <FieldComponent Label="Name">
+            <Control>
                 <InputText class="form-control" @bind-Value="server.Name"></InputText>
-            </div>
-            <div class="col">
+            </Control>
+            <ValidationControl>
                 <ValidationMessage For="() => server.Name"></ValidationMessage>
-            </div>
-        </div>
+            </ValidationControl>
+        </FieldComponent>
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label class="col-form-label">
-                    City
-                </label>
-            </div>
-            <div class="col-6 input-width">
+        <FieldComponent Label="City">
+            <Control>
                 <InputText class="form-control" @bind-Value="server.City"></InputText>
-            </div>
-            <div class="col">
+            </Control>
+            <ValidationControl>
                 <ValidationMessage For="() => server.City"></ValidationMessage>
-            </div>
-        </div>
+            </ValidationControl>
+        </FieldComponent>
 
-        <div class="row mb-3">
-            <div class="col-2">
-                <label class="col-form-label">
-                    Online
-                </label>
-            </div>
-            <div class="col-6">
+        <FieldComponent Label="IsOnline">
+            <Control>
                 <InputCheckbox class="form-check-input" @bind-Value="server.IsOnline"></InputCheckbox>
-            </div>
-        </div>
+            </Control>
+        </FieldComponent>
 
         <br />
 
