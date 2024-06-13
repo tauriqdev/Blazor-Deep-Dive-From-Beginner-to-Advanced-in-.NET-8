@@ -85,10 +85,17 @@
 
     protected override void OnParametersSet()
     {
+        Console.WriteLine("OnParametersSet");
         if (string.IsNullOrWhiteSpace(SearchFilter))
             servers = ServersRepository.GetServersByCity(CityName ?? "Toronto");
         else
             servers = ServersRepository.SearchServers(SearchFilter);
+    }
+
+    protected override bool ShouldRender()
+    {
+        Console.WriteLine("ShouldRender");
+        return base.ShouldRender();
     }
 
     protected override void OnAfterRender(bool firstRender)
