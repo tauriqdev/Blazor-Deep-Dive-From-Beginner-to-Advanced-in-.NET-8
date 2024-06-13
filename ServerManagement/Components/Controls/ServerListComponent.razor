@@ -63,4 +63,22 @@
         else
             servers = ServersRepository.SearchServers(SearchFilter);
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            // add init code here
+            if (string.IsNullOrWhiteSpace(SearchFilter))
+                servers = ServersRepository.GetServersByCity(CityName ?? "Toronto");
+            else
+                servers = ServersRepository.SearchServers(SearchFilter);
+
+            // add this to rerender the view bc this runs after the view is rendered
+            // forces the component to render again 
+            StateHasChanged();
+        }
+    }
 }
