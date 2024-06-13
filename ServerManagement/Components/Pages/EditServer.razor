@@ -1,6 +1,11 @@
 ﻿@page "/servers/{id:int}"
 
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@* to stop the user from leaving the page accedentally *@
+@* router has to be interactive *@
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" ConfirmExternalNavigation="true"></NavigationLock>
 
 <h3>Edit Server</h3>
 
@@ -76,6 +81,17 @@
         {
             ServersRepository.UpdateServer(server.Id, server);
             NavigationManager.NavigateTo("/servers");
+        }
+    }
+
+    // the router(global) needs to be set as interactive
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        // prompt the user if the user is sure to navigate away
+        var isConfirmmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to leave this page?");
+        if (!isConfirmmed)
+        {
+            context.PreventNavigation();
         }
     }
 }
