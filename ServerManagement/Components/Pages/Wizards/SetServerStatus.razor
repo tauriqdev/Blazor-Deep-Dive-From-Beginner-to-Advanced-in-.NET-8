@@ -1,0 +1,85 @@
+﻿@page "/serverstatus"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+
+<h3>Server Status</h3>
+<br />
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<FieldComponent Label="Server Status">
+    <Control>
+        <input type="checkbox" class="form-check-input" @bind-value="isOnline" />
+    </Control>
+</FieldComponent>
+
+<br />
+
+<button type="button" class="btn btn-primary" @onclick="Save">
+    Save
+</button>
+
+@code {
+    private string? errorMessage;
+
+    private bool isOnline;
+
+    [SupplyParameterFromQuery]
+    public string? ServerName { get; set; }
+
+    [SupplyParameterFromQuery]
+    public string? CityName { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (string.IsNullOrWhiteSpace(ServerName))
+            {
+                errorMessage = "Server name is required";
+                StateHasChanged();
+            }
+            else if (string.IsNullOrWhiteSpace(CityName))
+            {
+                errorMessage = "City name is required";
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void Save()
+    {
+        if (string.IsNullOrWhiteSpace(ServerName))
+        {
+            errorMessage = "Server name is required";
+            return;
+        }
+        else if (string.IsNullOrWhiteSpace(CityName))
+        {
+            errorMessage = "City name is required";
+            return;
+        }
+
+        var server = new Server
+            {
+                Name = ServerName,
+                City = CityName,
+                IsOnline = isOnline
+            };
+
+        ServersRepository.AddServer(server);
+        NavigationManager.NavigateTo($"/servers/back_from/{CityName}");
+    }
+}
