@@ -11,11 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Controls\Generic\RepeaterComponent.razor" />
     <_ContentIncludedByDefault Remove="Components\Controls\ServerListComponent.razor" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Components\Controls\Generic\RepeaterComponent.razor" />
     <None Include="Components\Controls\ServerListComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Controls\Generic\RepeaterComponent.razor" />
   </ItemGroup>
 
 </Project>
