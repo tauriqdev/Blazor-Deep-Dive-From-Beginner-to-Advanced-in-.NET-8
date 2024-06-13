@@ -12,6 +12,14 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddTransient<SessionStorage>();
 
+// AddScoped lifespan is the same as the SignalR lifespan
+// we want this with ContainerStorage
+// for server interactivity
+builder.Services.AddScoped<ContainerStorage>();
+// for web assembly interactivity
+//builder.Services.AddSingleton<ContainerStorage>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,0 +1,61 @@
+﻿@page "/container/serverstatus"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject ContainerStorage ContainerStorage
+
+<h3>Server Status Container Storage</h3>
+<br />
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+@if (server is not null)
+{
+    <FieldComponent Label="Server Status">
+        <Control>
+            <input type="checkbox" class="form-check-input" @bind-value="server.IsOnline" />
+        </Control>
+    </FieldComponent>
+}
+
+<br />
+
+<button type="button" class="btn btn-primary" @onclick="Save">
+    Save
+</button>
+
+@code {
+    private Server? server;
+
+    private string? errorMessage;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            server = ContainerStorage.GetServer();
+            StateHasChanged();
+        }
+    }
+
+    private void Save()
+    {
+        if (server is not null)
+        {
+            ContainerStorage.SetServer(null);
+            ServersRepository.AddServer(server);
+            NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
+        }
+    }
+}
