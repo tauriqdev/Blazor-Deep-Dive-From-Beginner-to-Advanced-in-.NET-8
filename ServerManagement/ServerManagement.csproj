@@ -13,11 +13,13 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Controls\Generic\RepeaterComponent.razor" />
     <_ContentIncludedByDefault Remove="Components\Controls\ServerListComponent.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\AddEditServer.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Components\Controls\Generic\RepeaterComponent.razor" />
     <None Include="Components\Controls\ServerListComponent.razor" />
+    <None Include="Components\Pages\AddEditServer.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Pages\AddEditServer.razor" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,114 @@
+﻿@page "/server/{id:int?}"
+
+@inject NavigationManager NavigationManager
+
+@if (Id.HasValue)
+{
+    <h3>
+        Edit Server
+    </h3>
+}
+else
+{
+    <h3>
+        Add Server
+    </h3>
+}
+
+@if (server != null)
+{
+    <EditForm Model="server"
+              FormName="formServer"
+              OnValidSubmit="OnSubmit">
+        @* tells the form to use the data annotations on the model for validation*@
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        @* display the validation message *@
+        <ValidationSummary></ValidationSummary>
+
+        @if (server.Id > 0)
+        {
+            <InputNumber @bind-Value="server.Id" hidden></InputNumber>
+        }
+
+        <FieldComponent Label="Name">
+            <Control>
+                <InputText class="form-control" @bind-Value="server.Name"></InputText>
+            </Control>
+            <ValidationControl>
+                <ValidationMessage For="() => server.Name"></ValidationMessage>
+            </ValidationControl>
+        </FieldComponent>
+
+        <FieldComponent Label="City">
+            <Control>
+                <InputText class="form-control" @bind-Value="server.City"></InputText>
+            </Control>
+            <ValidationControl>
+                <ValidationMessage For="() => server.City"></ValidationMessage>
+            </ValidationControl>
+        </FieldComponent>
+
+        <FieldComponent Label="IsOnline">
+            <Control>
+                <InputCheckbox class="form-check-input" @bind-Value="server.IsOnline"></InputCheckbox>
+            </Control>
+        </FieldComponent>
+
+        <br />
+
+        @if (server.Id > 0)
+        {
+            <button class="btn btn-primary me-1" type="submit">
+                Update
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-primary me-1" type="submit">
+                Save
+            </button>
+        }
+
+        <a href="/servers" class="btn btn-primary">
+            Close
+        </a>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "formServer")]
+    private Server? server { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Id.HasValue)
+        {
+            server ??= ServersRepository.GetServerById(Id.Value);
+        }
+        else
+        {
+            server ??= new() { IsOnline = false };
+        }
+    }
+
+    private void OnSubmit()
+    {
+        if (server != null)
+        {
+            if (Id.HasValue)
+            {
+                ServersRepository.UpdateServer(server.Id, server);
+
+            }
+            else
+            {
+                ServersRepository.AddServer(server);
+            }
+
+            NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
+        }
+    }
+}
