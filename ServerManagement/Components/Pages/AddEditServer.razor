@@ -79,6 +79,10 @@ else
     [Parameter]
     public int? Id { get; set; }
 
+    // example: /server?city=cape+town
+    [SupplyParameterFromQuery]
+    public string? City { get; set; }
+
     [SupplyParameterFromForm(FormName = "formServer")]
     private Server? server { get; set; }
 
@@ -92,6 +96,11 @@ else
         {
             server ??= new() { IsOnline = false };
         }
+
+        if (server != null && !string.IsNullOrWhiteSpace(City))
+        {
+            server.City = City;
+        }
     }
 
     private void OnSubmit()
@@ -101,7 +110,6 @@ else
             if (Id.HasValue)
             {
                 ServersRepository.UpdateServer(server.Id, server);
-
             }
             else
             {
