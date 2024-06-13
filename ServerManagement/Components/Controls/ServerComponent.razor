@@ -4,7 +4,7 @@
 {
     @* Use @key to improve list - rendering performance *@
     @* only renders the single item when adding or removing it, not the whole list *@
-    <li @key="Server.Id" style="background-color: @GetBackgroundColour()">
+    @* <li @key="Server.Id" style="background-color: @GetBackgroundColour()">
         @Server.Name in @Server.City is
         <span style="color: @(Server.IsOnline ? "green" : "red")">
             @(Server.IsOnline ? "online" : "offline")
@@ -43,21 +43,76 @@
         }
 
         &nbsp;
-        <a href="/servers/@Server.Id" class="btn btn-link">Edit</a>
-        @* @onclick="() => editingServer = !editingServer"> *@
-        <EditForm Model="Server"
+        <a href="/servers/@Server.Id" class="btn btn-link">Edit</a> *@
+    @* @onclick="() => editingServer = !editingServer"> *@
+    @*  <EditForm Model="Server"
                   FormName="@($"form-server-{Server.Id}")"
                   OnValidSubmit="@(() => { OnDeleteServer(Server.Id); })">
             <button type="submit" class="btn btn-primary ms-1">
                 Delete
             </button>
-        </EditForm>
+        </EditForm> *@
 
-        @* @if (editingServer)
+    @* @if (editingServer)
     {
     <ServerManagement.Components.Pages.EditServer Id="Server.Id"></ServerManagement.Components.Pages.EditServer>
     } *@
-    </li>
+    @* </li> *@
+
+    <tr style="background-color: @GetBackgroundColour()">
+        <td>
+            @Server.Name
+        </td>
+        <td>
+            @Server.City
+        </td>
+        <td style="color: @(Server.IsOnline ? "green" : "red")">
+            @(Server.IsOnline ? "online" : "offline")
+        </td>
+        <td>
+            @if (Server.IsOnline)
+            {
+                Random random = new Random();
+                int randomNumber = random.Next(0, 500);
+
+                <span>@randomNumber</span>
+            }
+            else
+            {
+                <span>N/A</span>
+            }
+        </td>
+        <td>
+            @if (Server.IsOnline)
+            {
+                <button type="button"
+                        class="btn btn-outline-danger"
+                        @onclick="() => Server.IsOnline = false">
+                    Turn Off
+                </button>
+            }
+            else
+            {
+                <button type="button"
+                        class="btn btn-outline-success"
+                        @onclick="() => Server.IsOnline = true">
+                    Turn On
+                </button>
+            }
+
+            &nbsp;
+            <a href="/servers/@Server.Id" class="btn btn-link">Edit</a>
+        </td>
+        <td>
+            <EditForm Model="Server"
+                      FormName="@($"form-server-{Server.Id}")"
+                      OnValidSubmit="@(() => { OnDeleteServer(Server.Id); })">
+                <button type="submit" class="btn btn-primary ms-1">
+                    Delete
+                </button>
+            </EditForm>
+        </td>
+    </tr>
 }
 
 @code {
