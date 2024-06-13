@@ -1,4 +1,6 @@
 ﻿@page "/servers"
+@page "/servers/back_from/{cityName}"
+
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer // set rendermode here to set this component and all child components *@
 
@@ -12,11 +14,16 @@
 <br />
 <br />
 
-<CityListComponent @ref="cityListComponent" SelectedCityCallback="HandleCitySelection"></CityListComponent>
+<CityListComponent @ref="cityListComponent"
+                   SelectedCityCallback="HandleCitySelection"
+                   selectedCity="@selectedCity">
+</CityListComponent>
 
 <br />
 
-<ServerSearchComponent @ref="serverSearchComponent" SearchServerCallback="HandleSearchServer"></ServerSearchComponent>
+<ServerSearchComponent @ref="serverSearchComponent"
+                       SearchServerCallback="HandleSearchServer">
+</ServerSearchComponent>
 
 <br />
 
@@ -32,11 +39,28 @@
 </CascadingValue>
 
 @code {
+    [Parameter]
+    public string? CityName { get; set; }
+
     private string selectedCity = "Toronto";
     private string serverFilter = "";
 
     private CityListComponent? cityListComponent;
     private ServerSearchComponent? serverSearchComponent;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (NavigationManager.Uri.Contains("back_from") && !string.IsNullOrWhiteSpace(CityName))
+            {
+                selectedCity = CityName;
+
+                // rerender to reflect the changes
+                StateHasChanged();
+            }
+        }
+    }
 
     private void HandleCitySelection(string cityName)
     {

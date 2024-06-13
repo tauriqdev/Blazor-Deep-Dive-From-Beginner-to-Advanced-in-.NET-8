@@ -14,9 +14,10 @@
 }
 
 @code {
-    private List<string> cities = CitiesRepository.GetCities();
+    [Parameter]
+    public string selectedCity { get; set; } = "Toronto";
 
-    private string selectedCity = "Toronto";
+    private List<string> cities = CitiesRepository.GetCities();
 
     [Parameter]
     public EventCallback<string> SelectedCityCallback { get; set; }

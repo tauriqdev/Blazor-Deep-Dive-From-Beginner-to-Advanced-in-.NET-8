@@ -80,7 +80,7 @@
         if (server != null)
         {
             ServersRepository.UpdateServer(server.Id, server);
-            NavigationManager.NavigateTo("/servers");
+            NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
         }
     }
 
