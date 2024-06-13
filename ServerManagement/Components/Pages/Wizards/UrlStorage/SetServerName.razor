@@ -1,11 +1,11 @@
-﻿@page "/servername"
+﻿@page "/url/servername"
 @* @using  *@
 
 @rendermode InteractiveServer
 
 @inject NavigationManager NavigationManager
 
-<h3>Server Name</h3>
+<h3>Server Name Url Storage</h3>
 <br />
 
 @if (!string.IsNullOrWhiteSpace(errorMessage))
@@ -45,7 +45,7 @@
         }
         else
         {
-            NavigationManager.NavigateTo($"/cityname?servername={serverName}");
+            NavigationManager.NavigateTo($"/url/cityname?servername={serverName}");
         }
     }
 }

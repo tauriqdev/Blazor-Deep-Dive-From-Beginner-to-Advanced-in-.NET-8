@@ -1,0 +1,67 @@
+﻿@page "/session/servername"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject SessionStorage SessionStorage
+
+<h3>Server Name Session Storage</h3>
+<br />
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+@if (server is not null)
+{
+    <FieldComponent Label="Name">
+        <Control>
+            <input type="text" class="form-control" @bind-value="server.Name" />
+        </Control>
+    </FieldComponent>
+}
+
+<br />
+
+<button type="button" class="btn btn-primary" @onclick="GoNextAsync">
+    Next
+</button>
+
+@code {
+    private Server? server;
+
+    private string? errorMessage;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            server = new Server();
+            StateHasChanged();
+        }
+    }
+
+    private async Task GoNextAsync()
+    {
+        if (server is not null)
+        {
+            if (string.IsNullOrWhiteSpace(server.Name))
+            {
+                errorMessage = "Server name is required";
+            }
+            else
+            {
+                await SessionStorage.SetServerAsync(server);
+                NavigationManager.NavigateTo($"/session/cityname");
+            }
+        }
+    }
+}
