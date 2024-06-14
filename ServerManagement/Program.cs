@@ -1,5 +1,6 @@
 using ServerManagement.Components;
 using ServerManagement.StateStore;
+using ServerManagement.StateStore.ServersStateStore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,8 @@ builder.Services.AddTransient<SessionStorage>();
 builder.Services.AddScoped<ContainerStorage>();
 // for web assembly interactivity
 //builder.Services.AddSingleton<ContainerStorage>();
-
+builder.Services.AddScoped<TorontoOnlineServersStore>();
+builder.Services.AddScoped<MontrealOnlineServersStore>();
 
 var app = builder.Build();
 

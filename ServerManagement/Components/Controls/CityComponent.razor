@@ -1,21 +1,38 @@
-﻿@if (City != null)
-{
-    <div class="col">
-        <div class="card @(SelectedCity.Equals(City, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
-            <img src="@($"/images/{City}.png")"
-                 class="card-img-top"
-                 alt="..." s
-                 tyle="height:120px;">
-            <div class="card-body">
-                <button type="button"
-                        class="btn btn-primary me-1"
-                        @onclick="() => SelectCityClick(City)">
-                    @City
-                </button>
-            </div>
+﻿@inject TorontoOnlineServersStore TorontoOnlineServersStore
+@inject MontrealOnlineServersStore MontrealOnlineServersStore
+
+<div class="col">
+    <div class="card @(SelectedCity.Equals(City, StringComparison.InvariantCultureIgnoreCase) ? "border-primary" : "")">
+        <img src="@($"/images/{City}.png")"
+             class="card-img-top"
+             alt="..." s
+             tyle="height:120px;">
+        <div class="card-body">
+            <button type="button"
+                    class="btn btn-primary me-1"
+                    @onclick="() => SelectCityClick(City)">
+                @City
+            </button>
+        </div>
+        <div>
+            @if (City.Equals("Toronto", StringComparison.OrdinalIgnoreCase))
+            {
+                <span>
+                    @_numberServersOnlineToronto
+                </span>
+            }
+        </div>
+
+        <div>
+            @if (City.Equals("Montreal", StringComparison.OrdinalIgnoreCase))
+            {
+                <span>
+                    @_numberServersOnlineMontreal
+                </span>
+            }
         </div>
     </div>
-}
+</div>
 
 @code {
     [Parameter]
@@ -26,6 +43,35 @@
 
     [Parameter]
     public EventCallback<string> SelectedCityCallback { get; set; }
+
+    private int _numberServersOnlineToronto;
+    private int _numberServersOnlineMontreal;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _numberServersOnlineToronto = TorontoOnlineServersStore.GetNumberServersOnline();
+            TorontoOnlineServersStore.AddStateChangeListeners(OnServersStatusChangeToronto);
+
+            _numberServersOnlineMontreal = MontrealOnlineServersStore.GetNumberServersOnline();
+            MontrealOnlineServersStore.AddStateChangeListeners(OnServersStatusChangeMontreal);
+
+            StateHasChanged();
+        }
+    }
+
+    private void OnServersStatusChangeToronto()
+    {
+        _numberServersOnlineToronto = TorontoOnlineServersStore.GetNumberServersOnline();
+        StateHasChanged();
+    }
+
+    private void OnServersStatusChangeMontreal()
+    {
+        _numberServersOnlineMontreal = MontrealOnlineServersStore.GetNumberServersOnline();
+        StateHasChanged();
+    }
 
     private void SelectCityClick(string cityName)
     {

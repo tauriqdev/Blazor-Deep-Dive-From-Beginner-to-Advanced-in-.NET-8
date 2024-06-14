@@ -28,7 +28,10 @@ namespace ServerManagement.StateStore
 
         public async Task SetServerAsync(Server? server)
         {
-            await _protectedSessionStorage.SetAsync("server", server);
+            if (server != null)
+            {
+                await _protectedSessionStorage.SetAsync("server", server);
+            }
         }
     }
 }

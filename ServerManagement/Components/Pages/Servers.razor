@@ -2,6 +2,9 @@
 @page "/servers/back_from/{cityName}"
 
 @inject NavigationManager NavigationManager
+@inject TorontoOnlineServersStore TorontoOnlineServersStore
+@inject MontrealOnlineServersStore MontrealOnlineServersStore
+
 @rendermode InteractiveServer // set rendermode here to set this component and all child components *@
 
 <div class="d-flex justify-content-between">
@@ -72,6 +75,18 @@
 
                 // rerender to reflect the changes
                 StateHasChanged();
+            }
+
+            var serversToronto = ServersRepository.GetServersByCity("Toronto");
+            if (serversToronto is not null)
+            {
+                TorontoOnlineServersStore.SetNumberServersOnline(serversToronto.Count(s => s.IsOnline));
+            }
+
+            var serversMontreal = ServersRepository.GetServersByCity("Montreal");
+            if (serversMontreal is not null)
+            {
+                MontrealOnlineServersStore.SetNumberServersOnline(serversMontreal.Count(s => s.IsOnline));
             }
         }
     }
