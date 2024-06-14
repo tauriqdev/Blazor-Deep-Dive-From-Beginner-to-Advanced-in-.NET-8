@@ -1,4 +1,6 @@
-﻿@inject TorontoOnlineServersStore TorontoOnlineServersStore
+﻿@implements IDisposable
+
+@inject TorontoOnlineServersStore TorontoOnlineServersStore
 @inject MontrealOnlineServersStore MontrealOnlineServersStore
 
 <div class="col">
@@ -15,20 +17,22 @@
             </button>
         </div>
         <div>
-            @if (City.Equals("Toronto", StringComparison.OrdinalIgnoreCase))
+            @switch (City)
             {
+                case "Toronto":
                 <span>
                     @_numberServersOnlineToronto
                 </span>
-            }
-        </div>
+                break;
 
-        <div>
-            @if (City.Equals("Montreal", StringComparison.OrdinalIgnoreCase))
-            {
+                case "Montreal":
                 <span>
                     @_numberServersOnlineMontreal
                 </span>
+                break;
+
+                default:
+                break;
             }
         </div>
     </div>
@@ -51,23 +55,33 @@
     {
         if (firstRender)
         {
-            _numberServersOnlineToronto = TorontoOnlineServersStore.GetNumberServersOnline();
-            TorontoOnlineServersStore.AddStateChangeListeners(OnServersStatusChangeToronto);
+            switch (City)
+            {
+                case "Toronto":
+                _numberServersOnlineToronto = TorontoOnlineServersStore.GetNumberServersOnline();
+                TorontoOnlineServersStore.AddStateChangeListeners(OnTorontoServersStatusChange);
+                break;
 
-            _numberServersOnlineMontreal = MontrealOnlineServersStore.GetNumberServersOnline();
-            MontrealOnlineServersStore.AddStateChangeListeners(OnServersStatusChangeMontreal);
+                case "Montreal":
+                _numberServersOnlineMontreal = MontrealOnlineServersStore.GetNumberServersOnline();
+                MontrealOnlineServersStore.AddStateChangeListeners(OnMontrealServersStatusChange);
+                break;
+
+                default:
+                break;
+            }
 
             StateHasChanged();
         }
     }
 
-    private void OnServersStatusChangeToronto()
+    private void OnTorontoServersStatusChange()
     {
         _numberServersOnlineToronto = TorontoOnlineServersStore.GetNumberServersOnline();
         StateHasChanged();
     }
 
-    private void OnServersStatusChangeMontreal()
+    private void OnMontrealServersStatusChange()
     {
         _numberServersOnlineMontreal = MontrealOnlineServersStore.GetNumberServersOnline();
         StateHasChanged();
@@ -76,5 +90,22 @@
     private void SelectCityClick(string cityName)
     {
         SelectedCityCallback.InvokeAsync(cityName);
+    }
+
+    public void Dispose()
+    {
+        switch (City)
+        {
+            case "Toronto":
+            TorontoOnlineServersStore.RemoveStateChangeListeners(OnTorontoServersStatusChange);
+            break;
+
+            case "Montreal":
+            MontrealOnlineServersStore.RemoveStateChangeListeners(OnMontrealServersStatusChange);
+            break;
+
+            default:
+            break;
+        }
     }
 }
