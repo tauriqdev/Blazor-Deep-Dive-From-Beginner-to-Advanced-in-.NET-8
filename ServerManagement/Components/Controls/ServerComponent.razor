@@ -1,6 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject TorontoOnlineServersStore TorontoOnlineServersStore
 @inject MontrealOnlineServersStore MontrealOnlineServersStore
+@inject IServersEFCoreRepository ServersEFCoreRepository
 
 @if (Server != null)
 {
@@ -130,7 +131,7 @@
     {
         if (id > 0)
         {
-            ServersRepository.DeleteServer(id);
+            ServersEFCoreRepository.DeleteServer(id);
             NavigationManager.Refresh(true);
         }
     }
@@ -182,6 +183,7 @@
         }
 
         Server.IsOnline = status;
+        ServersRepository.UpdateServer(Server.Id, Server);
     }
 
     private void UpdateTorontoServerCount(bool status)

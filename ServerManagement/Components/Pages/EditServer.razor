@@ -2,6 +2,7 @@
 
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject IServersEFCoreRepository ServersEFCoreRepository
 
 @* to stop the user from leaving the page accedentally *@
 @* router has to be interactive *@
@@ -72,14 +73,14 @@
     protected override void OnParametersSet()
     {
         // fetch only if server is null
-        server ??= ServersRepository.GetServerById(Id);
+        server ??= ServersEFCoreRepository.GetServerById(Id);
     }
 
     private void OnSubmit()
     {
         if (server != null)
         {
-            ServersRepository.UpdateServer(server.Id, server);
+            ServersEFCoreRepository.UpdateServer(server.Id, server);
             NavigationManager.NavigateTo($"/servers/back_from/{server.City}");
         }
     }

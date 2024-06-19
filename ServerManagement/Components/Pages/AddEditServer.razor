@@ -1,6 +1,7 @@
 ﻿@page "/server/{id:int?}"
 
 @inject NavigationManager NavigationManager
+@inject IServersEFCoreRepository ServersEFCoreRepository
 
 @if (Id.HasValue)
 {
@@ -90,7 +91,7 @@ else
     {
         if (Id.HasValue)
         {
-            server ??= ServersRepository.GetServerById(Id.Value);
+            server ??= ServersEFCoreRepository.GetServerById(Id.Value);
         }
         else
         {
@@ -109,11 +110,11 @@ else
         {
             if (Id.HasValue)
             {
-                ServersRepository.UpdateServer(server.Id, server);
+                ServersEFCoreRepository.UpdateServer(server.Id, server);
             }
             else
             {
-                ServersRepository.AddServer(server);
+                ServersEFCoreRepository.AddServer(server);
             }
 
             NavigationManager.NavigateTo($"/servers/back_from/{server.City}");

@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 
 @inject NavigationManager NavigationManager
+@inject IServersEFCoreRepository ServersEFCoreRepository
 
 <h3>Server Status Url Storage</h3>
 <br />
@@ -79,7 +80,7 @@
                 IsOnline = isOnline
             };
 
-        ServersRepository.AddServer(server);
+        ServersEFCoreRepository.AddServer(server);
         NavigationManager.NavigateTo($"/servers/back_from/{CityName}");
     }
 }

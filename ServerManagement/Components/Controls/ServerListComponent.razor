@@ -1,4 +1,6 @@
-﻿@* @if (servers != null && servers.Count > 0)
+﻿@inject IServersEFCoreRepository ServersEFCoreRepository
+
+@* @if (servers != null && servers.Count > 0)
 {
     <ul class="list-unstyled"> *@
 @* should use Virtualize instead of foreach if: *@
@@ -96,9 +98,9 @@
     {
         Console.WriteLine("OnParametersSet");
         if (string.IsNullOrWhiteSpace(SearchFilter))
-            servers = ServersRepository.GetServersByCity(CityName ?? "Toronto");
+            servers = ServersEFCoreRepository.GetServersByCity(CityName ?? "Toronto");
         else
-            servers = ServersRepository.SearchServers(SearchFilter);
+            servers = ServersEFCoreRepository.SearchServers(SearchFilter);
     }
 
     protected override bool ShouldRender()
@@ -115,9 +117,9 @@
         {
             // add init code here
             if (string.IsNullOrWhiteSpace(SearchFilter))
-                servers = ServersRepository.GetServersByCity(CityName ?? "Toronto");
+                servers = ServersEFCoreRepository.GetServersByCity(CityName ?? "Toronto");
             else
-                servers = ServersRepository.SearchServers(SearchFilter);
+                servers = ServersEFCoreRepository.SearchServers(SearchFilter);
 
             // add this to rerender the view bc this runs after the view is rendered
             // forces the component to render again

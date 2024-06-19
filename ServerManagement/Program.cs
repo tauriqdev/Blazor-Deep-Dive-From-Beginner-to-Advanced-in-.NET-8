@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ServerManagement.Components;
 using ServerManagement.Data;
+using ServerManagement.Models;
 using ServerManagement.StateStore;
 using ServerManagement.StateStore.ServersStateStore;
 
@@ -28,6 +29,11 @@ builder.Services.AddDbContextFactory<ServerManagementContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ServerManagement"));
 });
+
+// just need the connection when you need it not all the time
+// live as short as possible
+builder.Services.AddTransient<IServersEFCoreRepository, ServersEFCoreRepository>();
+
 
 var app = builder.Build();
 
