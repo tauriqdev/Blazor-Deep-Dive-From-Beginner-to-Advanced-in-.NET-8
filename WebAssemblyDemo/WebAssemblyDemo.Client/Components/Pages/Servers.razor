@@ -67,7 +67,7 @@ else
 
     private async Task DeleteAsync(int serverId)
     {
-        ServersRepository.DeleteServer(serverId);
+        await ServersApiRepository.DeleteServerAsync(serverId);
         listServers = await ServersApiRepository.GetServersAsync();
     }
 }
