@@ -82,6 +82,5 @@
         {
             return servers.Where(s => s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase)).ToList();
         }
-
     }
 }
