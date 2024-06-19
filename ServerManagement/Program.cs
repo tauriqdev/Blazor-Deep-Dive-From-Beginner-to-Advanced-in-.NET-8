@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using ServerManagement.Components;
+using ServerManagement.Data;
 using ServerManagement.StateStore;
 using ServerManagement.StateStore.ServersStateStore;
 
@@ -21,6 +23,11 @@ builder.Services.AddScoped<ContainerStorage>();
 //builder.Services.AddSingleton<ContainerStorage>();
 builder.Services.AddScoped<TorontoOnlineServersStore>();
 builder.Services.AddScoped<MontrealOnlineServersStore>();
+
+builder.Services.AddDbContextFactory<ServerManagementContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ServerManagement"));
+});
 
 var app = builder.Build();
 
