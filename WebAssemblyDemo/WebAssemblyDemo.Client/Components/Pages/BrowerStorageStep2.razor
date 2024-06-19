@@ -3,6 +3,7 @@
 @rendermode InteractiveWebAssembly
 
 @inject IJSRuntime JSRuntime
+@inject ContainerStorage ContainerStorage
 
 <h3>Brower Storage Step 2</h3>
 <br />
@@ -13,11 +14,20 @@
 @code {
     private string _data = "";
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         _data = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "demo-data");
+    //         StateHasChanged();
+    //     }
+    // }
+
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            _data = await JSRuntime.InvokeAsync<string>("sessionStorage.getItem", "demo-data");
+            _data = ContainerStorage.GetMessage();
             StateHasChanged();
         }
     }

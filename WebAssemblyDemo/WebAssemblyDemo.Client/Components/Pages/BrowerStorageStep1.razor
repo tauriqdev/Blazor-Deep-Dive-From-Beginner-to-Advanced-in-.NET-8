@@ -4,12 +4,13 @@
 
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
+@inject ContainerStorage ContainerStorage
 
 <h3>Brower Storage Step 1</h3>
 <br />
 <br />
 
-<input type="text" class="form-contol" @bind-value="_data" />
+<input type="text" class="form-control" @bind-value="_data" />
 <br />
 <br />
 
@@ -20,9 +21,15 @@
 @code {
     private string _data = "";
 
-    private async Task GoNext()
+    // private async Task GoNext()
+    // {
+    //     await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "demo-data", _data);
+    //     NavigationManager.NavigateTo("/browser_wasm_2");
+    // }
+
+    private void GoNext()
     {
-        await JSRuntime.InvokeVoidAsync("sessionStorage.setItem", "demo-data", _data);
+        ContainerStorage.SetMessage(_data);
         NavigationManager.NavigateTo("/browser_wasm_2");
     }
 }
